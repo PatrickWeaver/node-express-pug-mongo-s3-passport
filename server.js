@@ -34,12 +34,10 @@ app.get("/", function(req, res) {
 var adminRouter = require("./routes/admin")
 app.use("/admin", adminRouter);
 app.get("/login", function(req, res) {
-  //res.redirect("/admin/login");
-  res.send("/login");
+  res.redirect("/admin/login");
 });
 app.get("/logout", function(req, res) {
-  //res.redirect("/admin/logout");
-  res.send("/logout");
+  res.redirect("/admin/logout");
 });
 
 // Uploads
