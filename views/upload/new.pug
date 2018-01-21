@@ -1,0 +1,15 @@
+extends ../layout.pug
+
+block content
+  h3 New Upload
+  form(id="upload-form" action="/upload" method="post" enctype="multipart/form-data")
+    label File:
+    input(type="file" name="file" id="file-upload")
+    br
+    label Password:
+    input(type="password" name="password" id="password-upload")
+    br
+    button(type="submit" value="Submit") Upload
+  
+  br
+  a(href="upload/all") All Uploads
