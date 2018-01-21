@@ -7,3 +7,10 @@ block content
     each upload in uploads
       li
         img(src=upload)
+  
+  ul
+    - var i = 1;
+    while i <= pages
+      li
+        a(href="?page=" + i)= i++
+      
