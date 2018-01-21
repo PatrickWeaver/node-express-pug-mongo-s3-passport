@@ -48,23 +48,38 @@ router.get("/", function(req, res) {
 });
 
 router.get("/all", function(req, res) {
-  var callback = function(err, data) {
-    if (!err) {
-      templateData.uploads = [];
-      for (var i in data) {
-        templateData.uploads.push(getSignedUrlS3(data[i].bucketName, data[i].key));
-      }
-      res.render("upload/all", templateData);
-    } else {
-      resError(req, res, "Can't get uploads");
-    }
-  }
   
-  Upload.
-  find().
-  limit(10).
-  sort('-uploadDate').
-  exec(callback);
+  var perPage = 5;
+  var page = (req.query.page - 1) || 0;
+  
+  Upload.count({}, getPage);
+  
+  
+  function getPage(err, count) {
+    if (!err){
+      templateData.pages = (count / perPage) + 1;
+      var callback = function(err, data) {
+        if (!err) {
+          templateData.uploads = [];
+          for (var i in data) {
+            templateData.uploads.push(getSignedUrlS3(data[i].bucketName, data[i].key));
+          }
+          res.render("upload/all", templateData);
+        } else {
+          resError(req, res, "Can't get uploads");
+        }
+      }
+
+      Upload.
+      find().
+      limit(perPage).
+      skip(page * perPage).
+      sort('-uploadDate').
+      exec(callback)
+    } else {
+      resError(req, res, "Can't get uploads"); 
+    }
+  };
 });
 
 
