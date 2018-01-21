@@ -1,2 +1,7 @@
 # node-express-pug-mongo-s3-passport
-Node/Express/Pug/Mongo App with S3 Upload and Passport Auth
+
+Project template with admin login and file (image) upload.
+
+Authenticaiton is hard coded with 1 user (admin) with password stored as env variable.
+
+File Upload requires a Mongodb URI stored in an env variable, and AWS S3 credentials also stored in an env variable.

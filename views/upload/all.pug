@@ -1,0 +1,9 @@
+extends ../layout.pug
+
+block content
+  h3 All Uploads
+  
+  ul
+    each upload in uploads
+      li
+        img(src=upload)
