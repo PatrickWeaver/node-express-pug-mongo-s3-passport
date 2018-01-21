@@ -26,20 +26,12 @@ var memoryUpload = multer({
 const uuidv1 = require('uuid/v1');
 
 // Mongo config:
-var db;
-db = mongoose.connect(process.env.MONGODB_URI);
-var Schema = mongoose.Schema;
+var db = mongoose.connect(process.env.MONGODB_URI);
 
-var UploadSchema = new Schema({
-  bucketName     : String,
-  key            : String,
-  filetype       : String,
-  uploadDate     : Date
-});
+// Models
+var Upload = require("../models/upload");
 
-var Upload = mongoose.model("Upload", UploadSchema);
-
-function getSignedUrl(bucketName, key) {
+function getSignedUrlS3(bucketName, key) {
   return s3.getSignedUrl("getObject", {Bucket: bucketName, Key: key});
 }
 
@@ -48,7 +40,7 @@ router.get("/", function(req, res) {
   if (req.query.k && req.query.b) {
 
     // Using Pre Signed URL:
-    templateData.url = getSignedUrl(req.query.b, req.query.k);
+    templateData.url = getSignedUrlS3(req.query.b, req.query.k);
     res.render("upload/index", templateData);
   } else {
     res.render("upload/new", templateData);
@@ -60,7 +52,7 @@ router.get("/all", function(req, res) {
     if (!err) {
       templateData.uploads = [];
       for (var i in data) {
-        templateData.uploads.push(getSignedUrl(data[i].bucketName, data[i].key));
+        templateData.uploads.push(getSignedUrlS3(data[i].bucketName, data[i].key));
       }
       res.render("upload/all", templateData);
     } else {
