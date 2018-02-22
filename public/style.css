@@ -6,3 +6,9 @@ img {
   width: 200px;
   max-width: 100%;
 }
+
+#message {
+  color: red;
+  border: 1px solid red;
+  padding: 1em;
+}
