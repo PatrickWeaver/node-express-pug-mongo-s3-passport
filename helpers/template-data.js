@@ -3,6 +3,7 @@ module.exports = function() {
   
  return {
     title: process.env.NAME,
-    siteName: siteName
+    siteName: siteName,
+    message: ""
   }
 }
